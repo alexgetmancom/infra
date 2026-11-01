@@ -20,13 +20,6 @@ services:
     networks:
       - {{ docker.network }}
 
-{% if tuwunel.port_bindings | default([]) %}
-    ports:
-{% for binding in tuwunel.port_bindings %}
-      - "{{ binding }}"
-{% endfor %}
-{% endif %}
-
     environment:
       - TUWUNEL_CONFIG=/etc/tuwunel/tuwunel.toml
       - TUWUNEL_LOG={{ tuwunel.config.log_level }}
@@ -105,9 +98,9 @@ services:
       - {{ docker.network }}
 
     ports:
-      - "{{ livekit.listen_address | default('0.0.0.0') }}:{{ livekit.ports.http }}:{{ livekit.ports.http }}"
-      - "{{ livekit.listen_address | default('0.0.0.0') }}:{{ livekit.ports.tcp }}:{{ livekit.ports.tcp }}"
-      - "{{ livekit.listen_address | default('0.0.0.0') }}:{{ livekit.ports.udp_start }}-{{ livekit.ports.udp_end }}:{{ livekit.ports.udp_start }}-{{ livekit.ports.udp_end }}/udp"
+      - "{{ livekit.ports.http }}:{{ livekit.ports.http }}"
+      - "{{ livekit.ports.tcp }}:{{ livekit.ports.tcp }}"
+      - "{{ livekit.ports.udp_start }}-{{ livekit.ports.udp_end }}:{{ livekit.ports.udp_start }}-{{ livekit.ports.udp_end }}/udp"
 
     volumes:
       - ./config/livekit.yaml:/etc/livekit.yaml:ro
@@ -149,7 +142,7 @@ services:
 
     environment:
       - LIVEKIT_JWT_BIND=:{{ jwt_service.port }}
-      - LIVEKIT_URL=wss://{{ livekit.domain }}
+      - LIVEKIT_URL=https://{{ livekit.domain }}
       - LIVEKIT_KEY={{ livekit.key }}
       - LIVEKIT_SECRET={{ livekit.secret }}
       - LIVEKIT_FULL_ACCESS_HOMESERVERS={{ tuwunel.server_name }}
@@ -158,13 +151,6 @@ services:
 
     networks:
       - {{ docker.network }}
-
-{% if jwt_service.port_bindings | default([]) %}
-    ports:
-{% for binding in jwt_service.port_bindings %}
-      - "{{ binding }}"
-{% endfor %}
-{% endif %}
 
 networks:
   {{ docker.network }}:
