@@ -3,11 +3,11 @@ bind_addresses:
   - ""
 
 rtc:
-  node_ip: "{{ ansible_default_ipv4.address }}"
+  node_ip: "{{ livekit.node_ip | default(ansible_default_ipv4.address) }}"
   tcp_port: {{ livekit.ports.tcp }}
   port_range_start: {{ livekit.ports.udp_start }}
   port_range_end: {{ livekit.ports.udp_end }}
-  use_external_ip: true
+  use_external_ip: {{ livekit.use_external_ip | default(true) | bool | lower }}
   enable_loopback_candidate: false
 
 keys:

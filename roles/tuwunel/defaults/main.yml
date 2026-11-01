@@ -30,7 +30,7 @@ tuwunel:
     enabled: true
     uri: "ldap://lldap:3890"
     base_dn: "ou=people,dc=ziix,dc=ru"
-    bind_dn: "uid={{ vault_identity.lldap.admin_login }},ou=people,dc=ziix,dc=ru"
+    bind_dn: "uid={{ vault_identity.lldap.admin_login | default('') }},ou=people,dc=ziix,dc=ru"
     bind_password: "{{ vault_identity.lldap.admin_password | default('') }}"
     # Password file inside container
     bind_password_file: "/var/lib/tuwunel/.ldap_bind_password"

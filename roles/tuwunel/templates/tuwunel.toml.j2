@@ -34,14 +34,8 @@ log_colors = true
 client = "https://{{ tuwunel.domain }}"
 server = "{{ tuwunel.domain }}:443"
 
-# MatrixRTC/LiveKit configuration (MSC4143)
-[[global.well_known.rtc_foci]]
-type = "livekit"
-livekit_service_url = "https://{{ livekit.domain }}"
-livekit_sfu_url = "https://{{ livekit.domain }}/sfu/get"
-
-# Delayed events для автовыхода из прерванных звонков
-max_event_delay_duration = "24h"
+# MatrixRTC discovery for both well-known and the transports endpoint.
+livekit_url = "https://{{ livekit.domain }}"
 
 {% if tuwunel.ldap.enabled %}
 # LDAP Configuration

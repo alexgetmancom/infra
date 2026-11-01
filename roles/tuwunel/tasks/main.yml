@@ -35,7 +35,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ tuwunel.path }}/config/{{ item.dest }}"
-    mode: "0644"
+    mode: "0600"
     owner: "{{ deploy_user }}"
   loop:
     - { src: "tuwunel.toml.j2", dest: "tuwunel.toml" }
